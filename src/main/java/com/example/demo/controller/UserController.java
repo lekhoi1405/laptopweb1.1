@@ -16,10 +16,10 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/123")
+    @GetMapping("/")
     public String getHomePage(){
         String test = this.userService.handleHello();
-        return "hehe";
+        return "hello";
     }
 }
 
