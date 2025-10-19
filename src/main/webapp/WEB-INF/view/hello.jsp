@@ -1,3 +1,5 @@
+<%@page contentType="text/html" pageEncoding="UTF-8"%> 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,5 +9,8 @@
 </head>
 <body>
     hello from jsp from new window
+    <h1><%=request.getAttribute("eric")%></h1>
+     <p>Today's date: <%= (new java.util.Date()).toLocaleString()%></p>
+     <h5>${meomeoemeo}</h5>
 </body>
 </html>
