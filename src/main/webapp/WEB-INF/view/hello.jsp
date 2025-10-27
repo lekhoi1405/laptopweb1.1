@@ -28,9 +28,9 @@ uri="http://java.sun.com/jsp/jstl/core"%>
   </head>
   <body>
     hello from jsp from new window
-    <h1><%=request.getAttribute("eric")%></h1>
+    <h1><%=request.getAttribute("user")%></h1>
     <p>Today's date: <%= (new java.util.Date()).toLocaleString()%></p>
-    <h5>${meomeoemeo}</h5>
+    <h5>${user.email}</h5>
     <button>submit</button>
   </body>
 </html>

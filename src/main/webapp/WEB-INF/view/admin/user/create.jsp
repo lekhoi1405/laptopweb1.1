@@ -68,7 +68,7 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                 type="text"
                 class="form-control"
                 id="inputFullName"
-                path="fullname"
+                path="fullName"
               />
             </div>
 

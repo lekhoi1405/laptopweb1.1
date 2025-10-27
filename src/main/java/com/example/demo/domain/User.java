@@ -1,10 +1,19 @@
 package com.example.demo.domain;
 
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
 public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String email;
     private String password;
-    private String fullname;
+    private String fullName;
     private String address;
     private String phone;
     
@@ -32,12 +41,12 @@ public class User {
         return this.password;
     }
 
-    public void setFullname(String fullname){
-        this.fullname = fullname;
+    public void setfullName(String fullName){
+        this.fullName = fullName;
     }
 
-    public String getFullname(){
-        return this.fullname;
+    public String getfullName(){
+        return this.fullName;
     }
 
     public void setAddress(String address){
@@ -58,7 +67,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "User [id=" + id + ", email=" + email + ", password=" + password + ", fullname=" + fullname
+        return "User [id=" + id + ", email=" + email + ", password=" + password + ", fullname=" + fullName
                 + ", address=" + address + ", phone=" + phone + "]";
     }
 }

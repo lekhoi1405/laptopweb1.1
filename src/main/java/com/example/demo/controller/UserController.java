@@ -6,8 +6,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.domain.User;
 import com.example.demo.service.UserService;
@@ -33,12 +31,12 @@ public class UserController {
     public String getCreateUser(Model model){
         model.addAttribute("user", new User());
         String createUser =this.userService.createUser();
-        return "admin/user/create";
+        return createUser;
     }
 
     @PostMapping("/admin/user/create")
     public String createUserPage(Model model, @ModelAttribute("user") User hehe ){
-        System.out.println(hehe);
+        userService.handleSaveUser(hehe);
         return "hello";
     }
 }
