@@ -1,1 +1,1 @@
-alert("huhu");
+console.log(request.getAttribute("list"));
