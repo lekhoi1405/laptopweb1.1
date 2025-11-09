@@ -85,7 +85,7 @@ public class UserController {
         User currentUser = userService.handleGetUserByIdWithGet(newUser.getId());
         if(currentUser != null){
             currentUser.setAddress(newUser.getAddress());
-            currentUser.setfullName(newUser.getfullName());
+            currentUser.setFullName(newUser.getFullName());
             currentUser.setPhone(newUser.getPhone());
         }
         userService.handleSaveUser(currentUser);
@@ -108,7 +108,6 @@ public class UserController {
     @PostMapping("/admin/user/delete")
     public String deleteUser(@ModelAttribute User user){
         userService.handleDeleteUser(user);
-        System.out.println(user);
         return "redirect:/admin/user";
     }
 }

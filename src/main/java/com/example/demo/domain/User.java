@@ -1,22 +1,41 @@
 package com.example.demo.domain;
 
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     private String email;
+
     private String password;
     private String fullName;
     private String address;
     private String phone;
-    
+
+    String avatar;
+
+    // roleID
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private Role role;
+
+    @OneToMany(mappedBy = "user")
+    private List<Order> order;
+
     public void setId(long id){
         this.id = id;
     }
@@ -37,16 +56,24 @@ public class User {
         this.password = password;
     }
 
-    public String getPassword(){
-        return this.password;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setfullName(String fullName){
+    public void setFullName(String fullName) {
         this.fullName = fullName;
     }
 
-    public String getfullName(){
-        return this.fullName;
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public String getPassword(){
+        return this.password;
     }
 
     public void setAddress(String address){
@@ -67,7 +94,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "User [id=" + id + ", email=" + email + ", password=" + password + ", fullname=" + fullName
-                + ", address=" + address + ", phone=" + phone + "]";
+        return "User [id=" + id + ", email=" + email + ", password=" + password + ", fullName=" + fullName
+                + ", address=" + address + ", phone=" + phone + ", avatar=" + avatar + "]";
     }
 }
