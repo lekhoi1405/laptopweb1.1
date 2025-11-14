@@ -1,34 +1,37 @@
-package com.example.demo.controller;
-
+package com.example.demo.controller.admin;
 
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.domain.User;
+import com.example.demo.service.UploadService;
 import com.example.demo.service.UserService;
+
 
 @Controller
 public class UserController {
 
-    private UserService userService;
+    private final UserService userService;
+    private final UploadService uploadService;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, UploadService uploadService,PasswordEncoder passwordEncoder) {
         this.userService = userService;
+        this.uploadService = uploadService;
+        this.passwordEncoder = passwordEncoder;
     }
 
-    // @GetMapping("/")
-    // public String getHomePage(Model model){
-
-    // }
-
-    //Get table user page
+    //Get user page
     @GetMapping("/admin/user")
     public String getUserTable(Model model){
         List<User> userList = userService.handleGetAllUsers();
@@ -47,7 +50,12 @@ public class UserController {
 
     //Post Method for create user and redirect to table user page
     @PostMapping("/admin/user/create")
-    public String createUserPage(@ModelAttribute User user){
+    public String createUserPage(@ModelAttribute User user, @RequestParam("userAvatarFile")MultipartFile file){
+        String avatar = this.uploadService.handleUploadFile(file, "avatar");
+        String hashPassword = this.passwordEncoder.encode(user.getPassword());
+        user.setPassword(hashPassword);
+        user.setAvatar(avatar);
+        user.setRole(userService.handleGetRoleByName(user.getRole().getName()));
         userService.handleSaveUser(user);
         return "redirect:/admin/user";
     }
@@ -72,7 +80,7 @@ public class UserController {
     //Get update user page
     @GetMapping("/admin/user/update/{id}")
     //Spring JPA use DomainClassConverter to convert id 123 to user have id 123 in database 
-    //this is a effort when spring have to convert long 123 to User 123 
+    //this is an effort when spring have to convert long 123 to User 123 
     public String getUpdateUserPage(Model model, @PathVariable("id") User user){    
         model.addAttribute("user", user);
         String updateUser = userService.handleGetUpdateUserPage();
@@ -81,12 +89,14 @@ public class UserController {
 
     //Post Method for update user
     @PostMapping("/admin/user/update")
-    public String updateUser(@ModelAttribute User newUser){
+    public String updateUser(@ModelAttribute User newUser, @RequestParam("userAvatarFile") MultipartFile file){
         User currentUser = userService.handleGetUserByIdWithGet(newUser.getId());
         if(currentUser != null){
+            currentUser.setRole(userService.handleGetRoleByName(newUser.getRole().getName()));
             currentUser.setAddress(newUser.getAddress());
             currentUser.setFullName(newUser.getFullName());
             currentUser.setPhone(newUser.getPhone());
+            if(file!=null)currentUser.setAvatar(uploadService.handleUploadFile(file,"avatar"));
         }
         userService.handleSaveUser(currentUser);
         return "redirect:/admin/user";

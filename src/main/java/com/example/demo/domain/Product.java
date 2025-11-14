@@ -1,12 +1,12 @@
 package com.example.demo.domain;
 
-import java.util.List;
+import java.math.BigDecimal;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -17,7 +17,10 @@ public class Product {
      private long id;
 
      private String name;
-     private double price;
+
+     @Column(precision = 19, scale = 0)
+     private BigDecimal price;
+     
      private String image;
      private String detailDesc;
      private String shortDesc;
@@ -36,15 +39,16 @@ public class Product {
      public String getName() {
          return name;
      }
+     public BigDecimal getPrice() {
+        return price;
+    }
+     public void setPrice(BigDecimal price) {
+         this.price = price;
+     }
      public void setName(String name) {
          this.name = name;
      }
-     public double getPrice() {
-         return price;
-     }
-     public void setPrice(double price) {
-         this.price = price;
-     }
+
      public String getImage() {
          return image;
      }

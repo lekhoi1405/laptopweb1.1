@@ -42,11 +42,12 @@ uri="http://java.sun.com/jsp/jstl/core"%>
       <div id="layoutSidenav_content">
         <main>
           <div class="container-fluid px-4">
-            <h1 class="mt-4">Dashboard</h1>
+            <h1 class="mt-4">Manage Users</h1>
             <ol class="breadcrumb mb-4">
-              <li class="breadcrumb-item active">Dashboard</li>
+              <a href="/admin">Dashboard</a>
+              <li class="breadcrumb-item active">/Users</li>
             </ol>
-            <div class="container mt-5">
+            <div class="mt-5">
               <div class="row">
                 <div class="col-12">
                   <div class="d-flex justify-content-between">
@@ -61,6 +62,7 @@ uri="http://java.sun.com/jsp/jstl/core"%>
                         <th>ID</th>
                         <th>Email</th>
                         <th>Full Name</th>
+                        <th>Role</th>
                         <Th>Action</Th>
                       </tr>
                     </thead>
@@ -69,6 +71,7 @@ uri="http://java.sun.com/jsp/jstl/core"%>
                         <tr>
                           <th>${user.id}</th>
                           <td>${user.email}</td>
+                          <td>${user.role.name}</td>
                           <td>${user.fullName}</td>
                           <td>
                             <a

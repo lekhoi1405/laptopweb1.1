@@ -23,10 +23,11 @@ public class User {
 
     private String password;
     private String fullName;
+
     private String address;
     private String phone;
 
-    String avatar;
+    private String avatar;
 
     // roleID
     @ManyToOne
@@ -52,6 +53,22 @@ public class User {
         return this.email;
     }   
     
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public List<Order> getOrder() {
+        return order;
+    }
+
+    public void setOrder(List<Order> order) {
+        this.order = order;
+    }
+
     public void setPassword(String password){
         this.password = password;
     }
@@ -95,6 +112,6 @@ public class User {
     @Override
     public String toString() {
         return "User [id=" + id + ", email=" + email + ", password=" + password + ", fullName=" + fullName
-                + ", address=" + address + ", phone=" + phone + ", avatar=" + avatar + "]";
+                + ", address=" + address + ", phone=" + phone + ", avatar=" + avatar + ", role=" + role + "]";
     }
 }

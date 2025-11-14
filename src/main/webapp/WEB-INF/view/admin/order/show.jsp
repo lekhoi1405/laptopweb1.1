@@ -25,9 +25,10 @@ uri="http://java.sun.com/jsp/jstl/core"%>
       <div id="layoutSidenav_content">
         <main>
           <div class="container-fluid px-4">
-            <h1 class="mt-4">Dashboard</h1>
+            <h1 class="mt-4">Manage Orders</h1>
             <ol class="breadcrumb mb-4">
-              <li class="breadcrumb-item active">Dashboard</li>
+              <a href="/admin">Dashboard</a>
+              <li class="breadcrumb-item active">/Orders</li>
             </ol>
             <div>order</div>
           </div>

@@ -5,16 +5,21 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.example.demo.domain.Role;
 import com.example.demo.domain.User;
+import com.example.demo.repository.RoleRepository;
 import com.example.demo.repository.UserRepository;
 
 
 @Service
 public class UserService {
 
-    UserRepository userRepository;
-    UserService(UserRepository repository){
-        this.userRepository = repository;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+
+    UserService(UserRepository userRepository,RoleRepository roleRepository){
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
     }
 
     public List<User> handleGetAllUsers(){
@@ -41,16 +46,16 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    public Role handleGetRoleByName(String name){
+        return roleRepository.findByName(name);
+    }
+
     public String handleGetDeletePage(){
         return "admin/user/delete";
     }
 
     public String handleGetTableUserPage(){
-        return "admin/user/tableUser";
-    }
-
-    public String handleGetHelloPage(){
-        return "hello";
+        return "admin/user/show";
     }
 
     public String handleGetCreateUserPage(){
@@ -58,10 +63,13 @@ public class UserService {
     }
 
     public String handleGetViewUserPage(){
-        return "admin/user/viewUser";
+        return "admin/user/detail";
     }
 
     public String handleGetUpdateUserPage(){
-        return "admin/user/updateUser";
+        return "admin/user/update";
+    }
+    public String handleGetHelloPage(){
+        return "hello";
     }
 }
