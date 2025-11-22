@@ -3,6 +3,8 @@ package com.example.demo.domain;
 
 import java.util.List;
 
+import com.example.demo.service.validator.StrongPassword;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,6 +13,10 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "users")
@@ -18,10 +24,18 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
+    
+    @NotNull
+    @Email(message = "Email is not valid", regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$") 
+    @NotEmpty(message = "Email cannot be empty") 
     private String email;
 
+    @NotNull
+    @Size(min = 3 , message = "Password must be at least 3 characters long")
     private String password;
+
+    @NotNull
+    @Size(min = 3 , message = "Full name must be at least 3 characters long")
     private String fullName;
 
     private String address;

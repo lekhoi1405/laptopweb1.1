@@ -35,6 +35,13 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
     <script>
       $(document).ready(() => {
         const avatarFile = $("#inputAvatar");
+        const orgImage = "${user.avatar}";
+        if(orgImage != null && orgImage != ""){
+          const urlImage =  "/images/avatar/" + orgImage;
+          $("#avatarPreview").attr("src", urlImage);
+          $("#avatarPreview").css({ display: "block" });
+        }
+
         avatarFile.change(function (e) {
           const imgURL = URL.createObjectURL(e.target.files[0]);
           $("#avatarPreview").attr("src", imgURL);
@@ -77,15 +84,12 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                       >
                       <form:input
                         type="email"
-                        class="form-control col-12"
+                        class="form-control "
                         id="exampleInputEmail1"
                         aria-describedby="emailHelp"
                         path="email"
-                        disabled="true"
+                        readonly = "true"
                       />
-                      <!-- <div id="emailHelp" class="form-text">
-            We'll never share your email with anyone else.
-          </div> -->
                     </div>
                     <div class="" style="display: none">
                       <label for="inputId" class="form-label">Id</label>
@@ -113,12 +117,13 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                       <label for="inputFullName" class="form-label"
                         >Full name:</label
                       >
-                      <form:input
-                        type="text"
-                        class="form-control"
-                        id="inputFullName"
-                        path="fullName"
-                      />
+                      <c:set var="fullNameHasBindError"> 
+                        <form:errors path="fullName" /> 
+                      </c:set> 
+                      <form:input type="fullName" id="inputFullName"
+                        class="form-control ${not empty fullNameHasBindError? 'is-invalid':''}" 
+                        path="fullName" /> 
+                      <form:errors path="fullName" cssClass="invalid-feedback" />
                     </div>
 
                     <div class="mb-3">
@@ -159,21 +164,14 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                     </div>
 
                     <div class="col-12">
-                      <img style="max-height: 250px; display: none;" src="" alt="avatar preview"
+                      <img style="max-height: 250px; display: NONE;" alt="avatar preview"
                       id="avatarPreview">
                     </div>
-
-                    <!-- <div class="mb-5 form-check">
-              <input
-                type="checkbox"
-                class="form-check-input"
-                id="exampleCheck1"
-              />
-              <label class="form-check-label" for="exampleCheck1"
-                >Check me out</label
-              >
-            </div> -->
-                    <button type="submit" class="btn btn-danger">Update</button>
+                    
+                    <div class="col-12 d-flex justify-content-between">
+                      <a href="/admin/user" class="btn btn-success align-items-center col-2">Back</a>
+                      <button type="submit" class="btn btn-danger align-items-center col-2">Update</button>
+                    </div>
                   </form:form>
                 </div>
               </div>
@@ -187,6 +185,6 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
       crossorigin="anonymous"
     ></script>
-    <script src="js/scripts.js"></script>
+    <script src="/js/scripts.js"></script>
   </body>
 </html>

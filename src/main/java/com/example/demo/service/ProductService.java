@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -28,6 +29,14 @@ public class ProductService {
         return "admin/product/detail";
     }
 
+    public String handleGetUpdateProductPage(){
+        return "admin/product/update";
+    }
+
+    public String handleGetDeleteProductPage(){
+        return "admin/product/delete";
+    }
+
     public Product handleSaveProduct(Product product){
         return productRepository.save(product);
     }
@@ -36,4 +45,15 @@ public class ProductService {
         return productRepository.findAll();
     }
     
+    public Product handleGetProductById(Long id){
+        return productRepository.getById(id);
+    }
+
+     public Optional<Product> handleGetProductByIdWithFindBy(Long id){
+        return productRepository.findById(id);
+    }
+
+    public void handleDeleteProductById(Long id){
+        productRepository.deleteById(id);
+    }
 }

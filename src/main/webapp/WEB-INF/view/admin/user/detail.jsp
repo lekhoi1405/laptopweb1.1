@@ -34,6 +34,29 @@ uri="http://java.sun.com/jsp/jstl/core"%>
       src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
       crossorigin="anonymous"
     ></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+      $(document).ready(() => {
+        const orgImage = "${user.avatar}";
+
+        // Kiểm tra null hoặc rỗng
+        if (orgImage && orgImage.trim() !== "") {
+          // 1. Nối chuỗi đúng cú pháp
+          const urlImage = "/images/avatar/" + orgImage;
+
+          // 2. Tạo HTML trực tiếp (Nhanh và gọn hơn clone)
+          // Lưu ý: Đã xóa 'display: none' để ảnh hiện ra
+          const newLi = `
+        <li class="list-group-item">
+            <img style="max-height: 250px; display : block"  alt="avatar preview" src="\${urlImage}" />
+        </li>
+      `;
+
+          // 3. Append vào đúng thẻ ul bên trong .card
+          $(".card .list-group").append(newLi);
+        }
+      });
+    </script>
   </head>
   <body class="sb-nav-fixed">
     <jsp:include page="../layout/header.jsp" />
@@ -64,6 +87,14 @@ uri="http://java.sun.com/jsp/jstl/core"%>
                       <li class="list-group-item">Avatar: ${user.avatar}</li>
                       <li class="list-group-item">Role: ${user.role.name}</li>
                       <!-- <li class="list-group-item">
+                        <img
+                          style="max-height: 250px; display: block"
+                          alt="avatar preview"
+                          id="avatarPreview"
+                          src="/images/avatar/${user.avatar}"
+                        />
+                      </li> -->
+                      <!-- <li class="list-group-item">
                         Password: ${user.password}
                       </li> -->
                     </ul>
@@ -81,6 +112,6 @@ uri="http://java.sun.com/jsp/jstl/core"%>
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
       crossorigin="anonymous"
     ></script>
-    <script src="js/scripts.js"></script>
+    <script src="/js/scripts.js"></script>
   </body>
 </html>

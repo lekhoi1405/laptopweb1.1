@@ -56,9 +56,17 @@ uri="http://java.sun.com/jsp/jstl/core"%>
                       </li>
                       <li class="list-group-item">Target: ${product.target}</li>
                       <li class="list-group-item">Image: ${product.image}</li>
+                      <li class="list-group-item">
+                        <img
+                          style="max-height: 250px; display: block"
+                          src="/images/product/${product.image}"
+                          alt="image preview"
+                          id="imagePreview"
+                        />
+                      </li>
                     </ul>
                   </div>
-                  <a href="/admin/user" class="btn btn-success">Back</a>
+                  <a href="/admin/product" class="btn btn-success">Back</a>
                 </div>
               </div>
             </div>

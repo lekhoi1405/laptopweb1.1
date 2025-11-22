@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.domain.Role;
 import com.example.demo.domain.User;
+import com.example.demo.domain.dto.RegisterDTO;
 import com.example.demo.repository.RoleRepository;
 import com.example.demo.repository.UserRepository;
 
@@ -20,6 +21,16 @@ public class UserService {
     UserService(UserRepository userRepository,RoleRepository roleRepository){
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+    }
+    
+    public User registerDTOtoUser(RegisterDTO registerDTO){
+        User user = new User();
+
+        user.setFullName(registerDTO.getFirstName() + " " + registerDTO.getLastName());
+        user.setEmail(registerDTO.getEmail());
+        user.setPassword(registerDTO.getPassword());
+        
+        return user;
     }
 
     public List<User> handleGetAllUsers(){
@@ -36,6 +47,14 @@ public class UserService {
 
     public User handleGetUserByIdWithGet(long id){
         return userRepository.getById(id);
+    }
+
+    public boolean checkEmailExists(String email){
+        return this.userRepository.existsByEmail(email);
+    }
+
+    public User handleGetUserByEmail(String email){
+        return userRepository.findByEmail(email);
     }
 
     public void handleDeleteUser(User user){
@@ -72,4 +91,5 @@ public class UserService {
     public String handleGetHelloPage(){
         return "hello";
     }
+
 }

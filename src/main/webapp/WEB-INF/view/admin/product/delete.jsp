@@ -43,22 +43,22 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
       <div id="layoutSidenav_content">
         <main>
           <div class="container-fluid px-4">
-            <h1 class="mt-4">Manage Users</h1>
+            <h1 class="mt-4">Manage Products</h1>
             <ol class="breadcrumb mb-4">
               <a href="/admin">Dashboard</a>
-              <li class="breadcrumb-item active">/Users</li>
+              <li class="breadcrumb-item active">/Products</li>
             </ol>
             <div class="m-3">
               <div class="row">
                 <div class="col">
-                  <h1>Delete User with id: ${user.id}</h1>
+                  <h1>Delete User with id: ${product.id}</h1>
                   <hr />
                   <div class="alert alert-danger">sure?</div>
-                  <a href="/admin/user" class="btn btn-success">Back</a>
+                  <a href="/admin/product" class="btn btn-success">Back</a>
                   <form:form
-                    action="/admin/user/delete"
+                    action="/admin/product/delete"
                     method="post"
-                    modelAttribute="user"
+                    modelAttribute="product"
                   >
                     <form:input type="hidden" path="id" />
                     <button type="submit" class="btn btn-danger">

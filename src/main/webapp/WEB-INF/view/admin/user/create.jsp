@@ -72,24 +72,29 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                       <label for="inputEmail" class="form-label"
                         >Email address:</label
                       >
+                      <c:set var="emailHasBindError"> 
+                        <form:errors path="email" /> 
+                      </c:set> 
                       <form:input
                         type="email"
-                        class="form-control"
-                        id="exampleInputEmail1"
+                        class="form-control ${not empty emailHasBindError? 'is-invalid':''}" 
+                        id="inputEmail"
                         aria-describedby="emailHelp"
                         path="email"
                       />
+                      <form:errors path="email" cssClass="invalid-feedback" />
                     </div>
                     <div class="col-12 col-md-6">
                       <label for="inputPassword" class="form-label"
                         >Password:</label
                       >
-                      <form:input
-                        type="password"
-                        class="form-control"
-                        id="exampleInputPassword1"
-                        path="password"
-                      />
+                      <c:set var="passwordHasBindError"> 
+                        <form:errors path="password" /> 
+                      </c:set> 
+                      <form:input type="password" id="inputPassword"
+                        class="form-control ${not empty passwordHasBindError? 'is-invalid':''}" 
+                        path="password" /> 
+                      <form:errors path="password" cssClass="invalid-feedback" />
                     </div>
 
                     <div class="col-12 col-md-6">
@@ -108,12 +113,13 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                       <label for="inputFullName" class="form-label"
                         >Full name:</label
                       >
-                      <form:input
-                        type="text"
-                        class="form-control"
-                        id="inputFullName"
-                        path="fullName"
-                      />
+                      <c:set var="fullNameHasBindError"> 
+                        <form:errors path="fullName" /> 
+                      </c:set> 
+                      <form:input type="fullName" id="inputFullName"
+                        class="form-control ${not empty fullNameHasBindError? 'is-invalid':''}" 
+                        path="fullName" /> 
+                      <form:errors path="fullName" cssClass="invalid-feedback" />
                     </div>
 
                     <div class="col-12">
@@ -173,6 +179,6 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
       crossorigin="anonymous"
     ></script>
-    <script src="js/scripts.js"></script>
+    <script src="/js/scripts.js"></script>
   </body>
 </html>

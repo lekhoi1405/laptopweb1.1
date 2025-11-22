@@ -77,7 +77,7 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                         >Price:</label
                       >
                       <form:input
-                        value = "0.0"
+                        placeholder = "0.0"
                         type="text"
                         class="form-control"
                         id="priceInput"
@@ -119,7 +119,7 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                         >Quantity:</label
                       >
                       <form:input
-                        value = "0"
+                        placeholder = "0"
                         type="number"
                         class="form-control"
                         id="quantityInput"

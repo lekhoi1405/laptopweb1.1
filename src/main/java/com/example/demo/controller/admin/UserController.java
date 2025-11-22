@@ -6,6 +6,8 @@ import java.util.Optional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.demo.domain.User;
 import com.example.demo.service.UploadService;
 import com.example.demo.service.UserService;
+
+import jakarta.validation.Valid;
 
 
 @Controller
@@ -50,11 +54,23 @@ public class UserController {
 
     //Post Method for create user and redirect to table user page
     @PostMapping("/admin/user/create")
-    public String createUserPage(@ModelAttribute User user, @RequestParam("userAvatarFile")MultipartFile file){
-        String avatar = this.uploadService.handleUploadFile(file, "avatar");
+    public String createUserPage(@ModelAttribute @Valid User user, BindingResult newUserBindingResult, @RequestParam("userAvatarFile")MultipartFile file){
+        if(!file.isEmpty()){
+            String avatar = this.uploadService.handleUploadFile(file, "avatar");
+            user.setAvatar(avatar);
+        }
+
+        List<FieldError> errors = newUserBindingResult.getFieldErrors();
+        for(FieldError error : errors){
+            System.out.println( "' on field '" + error.getField() + "': " + error.getDefaultMessage());
+        }   
+
+        if(newUserBindingResult.hasErrors()){
+            return this.userService.handleGetCreateUserPage();
+        }
+
         String hashPassword = this.passwordEncoder.encode(user.getPassword());
         user.setPassword(hashPassword);
-        user.setAvatar(avatar);
         user.setRole(userService.handleGetRoleByName(user.getRole().getName()));
         userService.handleSaveUser(user);
         return "redirect:/admin/user";
@@ -89,14 +105,20 @@ public class UserController {
 
     //Post Method for update user
     @PostMapping("/admin/user/update")
-    public String updateUser(@ModelAttribute User newUser, @RequestParam("userAvatarFile") MultipartFile file){
+    public String updateUser(@ModelAttribute @Valid User newUser, BindingResult bindingResult, @RequestParam("userAvatarFile") MultipartFile file){
+        // if(bindingResult.hasErrors()){
+        //     bindingResult.getAllErrors().forEach(error -> {
+        //         System.out.println(error.getDefaultMessage());
+        //     });
+        //     // return userService.handleGetUpdateUserPage();
+        // }
         User currentUser = userService.handleGetUserByIdWithGet(newUser.getId());
         if(currentUser != null){
             currentUser.setRole(userService.handleGetRoleByName(newUser.getRole().getName()));
             currentUser.setAddress(newUser.getAddress());
             currentUser.setFullName(newUser.getFullName());
             currentUser.setPhone(newUser.getPhone());
-            if(file!=null)currentUser.setAvatar(uploadService.handleUploadFile(file,"avatar"));
+            if(!file.isEmpty())currentUser.setAvatar(uploadService.handleUploadFile(file,"avatar"));
         }
         userService.handleSaveUser(currentUser);
         return "redirect:/admin/user";

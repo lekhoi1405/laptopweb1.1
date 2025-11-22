@@ -44,9 +44,11 @@ public class ProductController {
     }
 
     @PostMapping("/admin/product/create")
-    public String createUserPage(@ModelAttribute Product product, @RequestParam("imageProduct") MultipartFile File){
-        String image = uploadService.handleUploadFile(File, "product");
-        product.setImage(image);
+    public String createUserPage(@ModelAttribute Product product, @RequestParam("imageProduct") MultipartFile file){
+        if(!file.isEmpty()){
+            String image = uploadService.handleUploadFile(file, "product");
+            product.setImage(image);
+        }
         productService.handleSaveProduct(product);
         return "redirect:/admin/product";
     }
@@ -57,4 +59,44 @@ public class ProductController {
         return productService.handleGetDetailProductPage();
     }
 
+    @GetMapping("/admin/product/update/{id}")
+    public String getUpdateProductPage(@PathVariable Long id, Model model){
+        Product product = productService.handleGetProductById(id);
+        model.addAttribute("product", product);
+        return productService.handleGetUpdateProductPage();
+    }
+
+    @PostMapping("/admin/product/update")
+    public String updateProductPage(@ModelAttribute Product product,@RequestParam("imageProduct") MultipartFile file ){
+        Product current = productService.handleGetProductById(product.getId());
+
+        if (current!=null) {
+            current.setDetailDesc(product.getDetailDesc());
+            current.setFactory(product.getFactory());
+            if(!file.isEmpty()){
+                String image = uploadService.handleUploadFile(file, "product");
+                current.setImage(image);
+            }
+            current.setName(product.getName());
+            current.setPrice(product.getPrice());
+            current.setQuantity(product.getQuantity());
+            current.setShortDesc(product.getShortDesc());
+            current.setTarget(product.getTarget());
+            productService.handleSaveProduct(current);
+        }
+        return "redirect:/admin/product";
+    }
+
+    @GetMapping("/admin/product/delete/{id}")
+    public String getDeleteProductPage(@PathVariable Long id, Model model){
+        Product product = productService.handleGetProductById(id);
+        model.addAttribute("product", product);
+        return productService.handleGetDeleteProductPage();
+    }
+
+    @PostMapping("/admin/product/delete")
+    public String deleteProduct(@ModelAttribute Product product){
+        productService.handleDeleteProductById(product.getId());
+        return "redirect:/admin/product";
+    }
 }   
